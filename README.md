@@ -12,7 +12,7 @@ img {
 </head>
 <body>
 
-<img src="images/maracuja.png" width=300 class="center">
+<img src="images/maracuja.png" width=300>
 
 </body>
 </html>
