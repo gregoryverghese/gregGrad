@@ -1,6 +1,6 @@
 
 
-<img src="images/maracuja.png", width=300>
+<img src="images/maracuja.png" width=300>
 
 # Maracuja
 
