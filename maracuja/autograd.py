@@ -1,53 +1,64 @@
 import numpy as np
 
 
-class Tensor():
-    def __init__(data, _children=(),_func_name=''):
+class Variable():
+    def __init__(data,_func_name=''):
         self.data=data
         self.grad=grad
-        self._backward=lambda: None
-        self._prev=set(_children)
+        self._prev=set()
         self._func_name=_func_name
 
 
-    def __add__(self, value):
-        value if isinstance(value,Tensor) else Tensor(value)
-        output=Tensor(self.data+value.data,(self,value),'+')
-
+    def __add__(self, other):
+        if not isinstance(other,Variable):
+            Variable(other)
+        
+        output=Variable(self.data+other.data,'+')
         def _backward():
             self.grad+=output.grad
             value.grad+=output.grad
 
-        output._backward=_backward
+        output._prev.add((self,other))
         return output
 
-    def __mul__(self, value):
-        value if isinstance(value,Tensor) else Tensor(value)
-        output=Tensor(self.data*self.value,(self,value),'*')
 
-        def _backward():
-            self.grad+=value.grad*output.grad
-            value.grad+=self.data*output.grad
-        out._backward=_backward
-        return output
+    def top_sort():
+        def _top_sort():
+            visited={}
+            visited.add(node)
+            if node not in visited:
+                for n in node._parents:
+                    top_sort(n)
+                nodes.append(node)
+            top_sort(self)
 
-    
-    def backward(self):
-        pass
+
+    def backward():
+        t_sort=top_sort(self)
+        
+        self.grad=1
+        for n in reversed(t_sort):
+            n._backward()
+
+
+
+
+
+
+
+
+
+
 
 
 
 
         
+
+
+
         
-
-
-    def backward(self):
-        self.backward(dy=self.grad)
-
-
-    def __repr__(self):
-        return f"<Tensor {self.data!r}>"
+        
 
 
 
